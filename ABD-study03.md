@@ -28,7 +28,7 @@ magnetic tapes, optical disks
 
 ### 典型磁盘结构
 
-![](figures/03-01.png)
+![](/figures/03-01.png)
 
 其中, 盘片platter, 盘面surface, 磁头R/W head, 磁道track, 柱面cylinder, 扇区sector.
 
