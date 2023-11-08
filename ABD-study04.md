@@ -1,8 +1,15 @@
 ---
+title: ABD-Study04
+date: 2023-10-22 21:11:36
+tags:
+- ABD
+categories:
+- ABD-USTC
 
-这是接着上节课04继续的, 前面的知识需要自己去花时间补齐.
 
 ---
+
+# Data Representation
 
 ### SQL sever文件组织
 

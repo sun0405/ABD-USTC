@@ -1,3 +1,12 @@
+---
+title: ABD-Study05
+date: 2023-10-29 21:11:36
+tags:
+- ABD
+categories:
+- ABD-USTC
+---
+
 # Buffer Management
 
 旨在: 最小化磁盘的I/O次数, 保持最可能被访问的在内存中.

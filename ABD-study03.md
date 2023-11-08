@@ -1,3 +1,13 @@
+---
+title: ABD-Study03
+date: 2023-10-15 21:11:36
+tags:
+- ABD
+categories:
+- ABD-USTC
+
+---
+
 # Data Storage
 
 ## 存储器结构
@@ -75,4 +85,6 @@ $$
 - 大小: 8*8192*256*512 = 8GB
 
 ### 计算
+
+
 

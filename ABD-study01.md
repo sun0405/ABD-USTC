@@ -1,3 +1,12 @@
+---
+title: ABD-Study01
+date: 2023-10-11 21:11:36
+tags:
+- ABD
+categories:
+- ABD-USTC
+---
+
 # 数据库系统
 
 预备知识：
@@ -42,9 +51,7 @@
 
 **数据库系统（DBS）**：在计算机系统中 引入了数据库后的系统，即采用了数据库技术的计算机系统
 
-
-
-![image-20230918214237988](C:\Users\13671\AppData\Roaming\Typora\typora-user-images\image-20230918214237988.png)
+![图一](figures/01-01.png)
 
 ### SQL的基本组成
 
