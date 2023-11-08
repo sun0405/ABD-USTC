@@ -63,7 +63,7 @@ LRU----()----()----()-- <---MRU
 
 与LRU-2类似,但不同的地方在于访问一次的队列使用FIFO, 而不是LRU.
 
-<img src="figures/05-01.png" style="zoom:43%;" />
+<img src="/figures/05-01.png" style="zoom:43%;" />
 
 ### Second-Chance FIFO
 
