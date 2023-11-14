@@ -13,7 +13,17 @@ categories:
 
 ## 缓冲区结构
 
+![图二](/figures/05-02.png)
 
+### frame的参数
+
+- Dirty: Frame中的块是否已经被修改
+- Pin-count: Frame的块以及被请求并且还未释放的计数, 即当前的用户数
+- Others: latch, 是否加锁
+
+### 请求块
+
+如果请求块不在缓冲池中, 则选择一个frame来替代, 如果这个frame是dirty的, 将它写入磁盘, 读取请求块进入所选择的frame. Pin这个块并返回地址.
 
 
 
@@ -67,11 +77,21 @@ LRU----()----()----()-- <---MRU
 
 ### Second-Chance FIFO
 
-相当于给了每个frame两次置换机会, 
+相当于给了每个frame两次置换机会, 避免高频访问但最近一轮没有被访问的frame被置换出buffer
+
+每个frame仅需要一个额外的Bit, 空间代价低
+
+缺点: 置换时需要移动多个元素，理论性能比LRU差
 
 ### CLOCK
 
-也是Second-Chance的变种
+也是Second-Chance的变种, 将Second-Chance FIFO组织成环形
+
+![图三](/figures/05-03.png)
+
+N个frame组成环形，current指针指向当前 frame；每个frame有一个referenced位，初始为1； 当需要置换页时，从current开始检查，若 pin-count>0，current增加1；若referenced 已启动（=1），则关闭它（=0）并增加current（保证最近的不被替换）；若pin-count=0并且referenced关闭（=0），则替换该frame，同时current加1 
+
+注意：Current指针只在置换时更新，访问命中时不改变Current指针
 
 ### SSD上的置换算法
 
@@ -104,7 +124,7 @@ DBMS需要强制写回磁盘能力, OS的缓冲写回一般通过记录写请求
 
 将key的请求转化为Page请求.
 
-record请求 -> frame请求 -> page请求
+record请求 -> frame请求 -> page请求 ->  disk file I/O
 
 ### 错误的记录操作实现例子
 
@@ -116,7 +136,23 @@ fwrite();
 ```
 ````
 
+基于文件系统, 使用了FS的缓冲管理
 
+- 不能保证WAL
+- 不利于查询优化
+- 不适应应用需求
+
+### Block Vs Disk File
+
+文件存储在磁盘上的物理形式是 bits/bytes，block是由OS或DBMS软件对文件所做的抽象，这一抽象是通过控制数据在文件中的起止offset来实现的
+
+通常frame大小=page大小
+
+Buffer = set of frames, File = set of pages
+
+### Buffer的存储结构
+
+Buffer是一个frame的列表，每个frame用于表示和存放一个磁盘块
 
 ### Buffer中Frame的查找
 
@@ -151,5 +187,17 @@ struct BCB {
 
 ### Buffer Manager的基本功能
 
-- FixPage(int page_id)
+- FixPage(int page_id): 将对应page_id的page读入到buffer中。如果 buffer已满，则需要选择换出的frame。
+- FixNewPage(): 在插入数据时申请一个新page并将其放在buffer中
+- SelectVictim(): 选择换出的frame_id
+- FindFrame(int page_id): 查找给定的page是否已经在某个frame中了
+- SetDirty(int frame_id): 设定frame为dirty
+
+### 数据库文件的一般组成
+
+数据文件: 首块在Insert_Record时创建, 一般块号从0开始(FixnewPage)
+
+系统目录文件: 首块在Create_Table时创建(FixNewPage)
+
+*所有数据和元数据操作都唯一通过 Buffer Manager来请求page*
 
