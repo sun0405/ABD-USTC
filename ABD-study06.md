@@ -1,5 +1,5 @@
 ---
-title: ABD-Study06
+title: ADB-Study06
 date: 2023-11-5 11:11:36
 tags:
 - ABD
