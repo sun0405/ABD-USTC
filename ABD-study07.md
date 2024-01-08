@@ -8,4 +8,8 @@ categories:
 
 ---
 
-# 
+# Query Optimization
+
+![](/figures/07-01.png)
+
+![](/figures/07-02.png)
